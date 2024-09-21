@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "962396868145",
+    "firebase_url": "https://cvflutter-c2fcc-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "cvflutter-c2fcc",
+    "storage_bucket": "cvflutter-c2fcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962396868145:android:8eb54f5138a93ec77d0f10",
+        "android_client_info": {
+          "package_name": "com.example.cvflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962396868145-h2gsdp58p5odqr3rih8oe1gon31hni90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXr-uf2-DRgpTJhqxlbFr1_MUlRBfXf9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962396868145-h2gsdp58p5odqr3rih8oe1gon31hni90.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "962396868145-16prm81pbu3rrlpifjl3ose13aj7hscu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cvflutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
