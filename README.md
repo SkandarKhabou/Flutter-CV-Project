@@ -26,10 +26,4 @@ This **Flutter application** presents my CV with a sleek and modern design. It i
 
 ![Example Image](Screenshots/video.gif)
 ![Example Image](Screenshots/Capture1.png)
-![Example Image](Screenshots/Capture2.png)
-![Example Image](Screenshots/Capture3.png)
 ![Example Image](Screenshots/Capture31.png)
-![Example Image](Screenshots/Capture4.png)
-![Example Image](Screenshots/Capture5.png)
-![Example Image](Screenshots/Capture6.png)
-![Example Image](Screenshots/Capture7.png)
