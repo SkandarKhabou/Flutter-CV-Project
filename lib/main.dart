@@ -1,56 +1,32 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: unused_import
 
-
-import 'package:cvflutter/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'firebase_options.dart';
+import 'package:mycvapp/Pages/Login.page.dart';
+import 'package:mycvapp/Pages/Welcome.page.dart';
+import 'package:mycvapp/firebase_options.dart';
+import 'Tools/theme_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, _) {
-          return MaterialApp(
-            theme: themeProvider.getTheme(),
-            home: SplashScreen(),
-            debugShowCheckedModeBanner: false,
-          );
-        },
-      ),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (_, currentMode, __) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          themeMode: currentMode, // reacts to notifier
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          home: LoginPage(),
+        );
+      },
     );
-  }
-}
-
-enum ThemeType { Light, Dark }
-
-class ThemeProvider extends ChangeNotifier {
-  ThemeData _themeData = ThemeData.light();
-  ThemeType _themeType = ThemeType.Light;
-
-  ThemeData getTheme() => _themeData;
-
-  ThemeType getThemeType() => _themeType;
-
-  void toggleTheme() {
-    if (_themeType == ThemeType.Light) {
-      _themeData = ThemeData.dark();
-      _themeType = ThemeType.Dark;
-    } else {
-      _themeData = ThemeData.light();
-      _themeType = ThemeType.Light;
-    }
-    notifyListeners();
   }
 }

@@ -1,29 +1,16 @@
-# ✨ CV Presentation in Flutter ✨
+# mycvapp
 
-This **Flutter application** presents my CV with a sleek and modern design. It incorporates a **Dark Mode** and **Light Mode**, allowing users to switch seamlessly between the two, providing an optimal viewing experience in any environment.
+A new Flutter project.
 
-## 🌟 Key Features
+## Getting Started
 
-- **🌗 Dark & Light Mode**  
-  Toggle between dark and light themes for an adaptable viewing experience. Perfect for different lighting conditions!
+This project is a starting point for a Flutter application.
 
-- **📱 Responsive Design**  
-  The layout adjusts beautifully across all devices—mobile, tablet, and desktop—offering a consistent and polished appearance.
+A few resources to get you started if this is your first Flutter project:
 
-- **🎨 Modern UI**  
-  The design is clean and professional, featuring sections for:
-  - Personal Information
-  - Education
-  - Skills
-  - Projects
-  - Experience
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## 🚀 Technologies Used
-
-- **Flutter**: For cross-platform development
-
-## 🖼️ App UI
-
-![Example Image](Screenshots/video.gif)
-![Example Image](Screenshots/Capture1.png)
-![Example Image](Screenshots/Capture31.png)
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
