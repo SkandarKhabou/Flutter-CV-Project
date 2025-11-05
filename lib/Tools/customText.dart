@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mycvapp/Tools/theme_notifier.dart';
+import 'package:mycvapp/Config/config.dart';
 
 // 🏷️ Title text
 Widget customTitle(String text, [Color? color]) {

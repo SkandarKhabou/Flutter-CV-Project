@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycvapp/Pages/login.page.dart';
 import 'package:mycvapp/Pages/welcome.page.dart';
+import 'package:mycvapp/Tools/FormHelper.dart';
+import 'package:mycvapp/Tools/NormalButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InscriptionPage extends StatefulWidget {
@@ -11,13 +14,10 @@ class InscriptionPage extends StatefulWidget {
 
 class _InscriptionPageState extends State<InscriptionPage> {
   final _formKey = GlobalKey<FormState>();
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  String? _fullName;
-  String? _username;
-  String? _password;
-  String? _usernameValidationMessage;
-  bool _usernameExists = false;
-  late SharedPreferences prefs;
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,83 +74,20 @@ class _InscriptionPageState extends State<InscriptionPage> {
                           backgroundColor: Colors.blue,
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF9195FF),
-                            disabledBorder: InputBorder.none,
-                            labelText: 'Full name',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your full name';
-                            } else if (value.length <= 6) {
-                              return 'Full name should be longer than 6 characters';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _fullName = value;
-                          },
+                        customTextFormField(
+                          myLabel: "Full Name",
+                          controller: _fullNameController,
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF9195FF),
-                            disabledBorder: InputBorder.none,
-                            labelText: 'Username',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (_usernameValidationMessage != null) {
-                              return _usernameValidationMessage!;
-                            }
-                            if (_usernameExists) {
-                              return 'Username already exists';
-                            }
-                            return null;
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _username = value;
-                            });
-                            validateUsername(value);
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _username = value;
-                            });
-                          },
+                        customTextFormField(
+                          myLabel: "Email",
+                          controller: _emailController,
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF9195FF),
-                            disabledBorder: InputBorder.none,
-                            labelText: 'Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
-                            } else if (value.length <= 8) {
-                              return 'Password should be longer than 8 characters';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _password = value;
-                          },
+                        customTextFormField(
+                          myLabel: "Password",
+                          controller: _passwordController,
+                          isPassword: true,
                         ),
                         SizedBox(height: 20),
                         TextButton(
@@ -167,21 +104,15 @@ class _InscriptionPageState extends State<InscriptionPage> {
                             style: TextStyle(color: Color(0xff41a8f5)),
                           ),
                         ),
-                        SizedBox(
-                          width: 170,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                addUser();
-                              }
-                            },
-                            child: Text('Sign Up'),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.blue,
-                            ),
-                          ),
+                        customButton(
+                          title: "Sign In",
+                          height: 45,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              signUp();
+                            }
+                          },
+                          borderRadius: 20,
                         ),
                       ],
                     ),
@@ -195,63 +126,58 @@ class _InscriptionPageState extends State<InscriptionPage> {
     );
   }
 
-  Future<void> addUser() async {
-    prefs = await SharedPreferences.getInstance();
-    users
-        .doc(_username!)
-        .set({
-          'fullname': _fullName,
-          'username': _username,
-          'password': _password,
-        })
-        .then((value) => print("User Added with ID: $_username"))
-        .catchError((error) => print("Failed to add user: $error"));
-    prefs.setBool("connecte", true);
-    prefs.setString("username", _username!);
-    prefs.setString("password", _password!);
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => WelcomePage()),
-    );
-  }
-
-  Future<bool> findUsername(String username) async {
+  Future<void> signUp() async {
     try {
-      QuerySnapshot querySnapshot = await users.get();
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.toLowerCase().trim(),
+            password: _passwordController.text.trim(),
+          );
 
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        if (doc['username'].toLowerCase() == username.toLowerCase()) {
-          print('Username ${doc['username']} found in document ${doc.id}');
-          return true;
-        }
-      }
-      return false;
-    } catch (e) {
-      print('Error: $e');
-      return false;
-    }
-  }
+      User? user = userCredential.user;
+      if (user != null) {
+        await user.sendEmailVerification();
 
-  void validateUsername(String? value) async {
-    if (value == null || value.isEmpty) {
-      setState(() {
-        _usernameValidationMessage = 'Please enter a username';
-      });
-    } else {
-      bool usernameExists = await findUsername(value);
-      setState(() {
-        _usernameExists = usernameExists;
-      });
-      if (usernameExists) {
-        setState(() {
-          _usernameValidationMessage = 'Username already exists';
-        });
-      } else {
-        setState(() {
-          _usernameValidationMessage = null;
-        });
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(_emailController.text.toLowerCase().trim())
+            .set({'Full Name': _fullNameController.text.trim()});
       }
+
+      // ✅ Show dialog first
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Registration Successful'),
+          content: const Text("We've sent you a verification email."),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // close dialog
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Registration Error'),
+          content: Text(e.message ?? 'An error occurred during registration.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
     }
   }
 }

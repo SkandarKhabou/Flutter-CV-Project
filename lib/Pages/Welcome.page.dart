@@ -40,7 +40,7 @@ class WelcomePage extends StatelessWidget {
             customButton(
               title: "Logout",
               width: 200,
-              height: 45,
+              height: 50,
               color: Colors.blueAccent,
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();

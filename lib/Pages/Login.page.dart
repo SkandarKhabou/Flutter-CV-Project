@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mycvapp/Pages/Inscription.page.dart';
 import 'package:mycvapp/Pages/welcome.page.dart';
+import 'package:mycvapp/Tools/FormHelper.dart';
+import 'package:mycvapp/Tools/NormalButton.dart';
+import 'package:mycvapp/Tools/customText.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,10 +17,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _rememberMe = false;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  String? _username;
-  String? _password;
   String _signinErrorMessage = "";
-  bool _obscurePassword = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late SharedPreferences prefs;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -74,65 +75,20 @@ class _LoginPageState extends State<LoginPage> {
                           backgroundColor: Colors.blue,
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF9195FF),
-                            disabledBorder: InputBorder.none,
-                            labelText: 'Username',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your username';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _username = value;
-                          },
+                        // Username Field
+                        customTextFormField(
+                          myLabel: "Username",
+                          controller: _emailController,
                         ),
                         SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF9195FF),
-                            disabledBorder: InputBorder.none,
-                            labelText: 'Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                          obscureText: _obscurePassword,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _password = value;
-                          },
+                        // Password Field
+                        customTextFormField(
+                          myLabel: "Password",
+                          controller: _passwordController,
+                          isPassword: true,
                         ),
                         SizedBox(height: 20),
+                        // Remember Me + Signup link
                         Row(
                           children: <Widget>[
                             Checkbox(
@@ -163,44 +119,31 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               },
                               child: Text(
-                                'Don\'t have an account ?',
+                                "Don't have an account?",
                                 style: TextStyle(color: Color(0xff41a8f5)),
                               ),
                             ),
                           ],
                         ),
-                        Text(
-                          _signinErrorMessage,
-                          style: TextStyle(color: Colors.red, fontSize: 16),
-                        ),
                         SizedBox(height: 10),
-                        SizedBox(
-                          width: 170,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                signIn();
-                              }
-                            },
-                            child: Text('Sign In'),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.blue,
-                            ),
-                          ),
+                        // Sign In Button
+                        customButton(
+                          title: "Sign In",
+                          height: 45,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              signIn();
+                            }
+                          },
+                          borderRadius: 20,
                         ),
-                          ElevatedButton(
-                            onPressed: signInWithGoogle,
-                            child: Text('Sign In with Google'),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.red,
-                            ),
-                          ),
-                        SizedBox(height: 20),
+                        customSubtitle(_signinErrorMessage),
+                        SizedBox(height: 10),
+                        // Forgot Password
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // Forgot password action
+                          },
                           child: Text('Forgot password?'),
                         ),
                       ],
@@ -216,75 +159,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> signIn() async {
-    prefs = await SharedPreferences.getInstance();
-    if ((await findUsernameAndPassword(_username!, _password!))) {
-      if (_rememberMe) {
-        prefs.setBool("connecte", true);
-        prefs.setString("username", _username!);
-        prefs.setString("password", _password!);
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: _emailController.text.toLowerCase().trim(),
+            password: _passwordController.text.trim(),
+          );
+      final user = userCredential.user;
+      if (user == null) {
+        setState(() {
+          _signinErrorMessage = "User not found !";
+        });
+        return;
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomePage()),
-      );
-    } else {
+      if (!user.emailVerified) {
+        setState(() {
+          _signinErrorMessage = "Email not verified !";
+        });
+        return;
+      }
+    } on FirebaseAuthException {
       setState(() {
-        _signinErrorMessage = "Username or Password is wrong !";
+        _signinErrorMessage = "Email or password is incorrect !";
       });
-    }
-  }
-
-  Future<bool> findUsernameAndPassword(String username, String password) async {
-    try {
-      QuerySnapshot querySnapshot = await users.get();
-
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        if ((doc['username'].toLowerCase() == username.toLowerCase()) &&
-            (doc['password'] == password)) {
-          print('Username ${doc['username']} found in document ${doc.id}');
-          return true;
-        }
-      }
-      return false;
     } catch (e) {
-      print('Error: $e');
-      return false;
-    }
-  }
-
-  Future<void> signInWithGoogle() async {
-    prefs = await SharedPreferences.getInstance();
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithCredential(credential);
-
-      // Here, you can access the user's name and last name
-      var user = userCredential.user;
-      print(
-        "Name: ${user?.displayName}, Last Name: Extracted from displayName",
-      );
-      if (_rememberMe) {
-        prefs.setBool("connecte", true);
-        prefs.setString("username", "googleConnected");
-        prefs.setString("password", "googleConnected");
-      }
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomePage()),
-      );
-    } on FirebaseAuthException catch (e) {
-      print('Firebase Auth exception->${e.message}');
-    } catch (e) {
-      print('exception->$e');
+      // Catch any null errors or unexpected errors
+      print("Unexpected error in login: $e");
     }
   }
 }

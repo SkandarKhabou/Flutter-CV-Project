@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mycvapp/Pages/Login.page.dart';
 import 'package:mycvapp/Pages/Welcome.page.dart';
 import 'package:mycvapp/firebase_options.dart';
-import 'Tools/theme_notifier.dart';
+import 'Config/config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

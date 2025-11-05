@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 // Generic button function with title
 Widget customButton({
-  required String title,          // Button text
-  required double width,          // Width of the button
-  required double height,         // Height of the button
-  required Color color,           // Background color
-  required VoidCallback onPressed,// Function called on press
-  TextStyle? textStyle,           // Optional text style
+  required String title,
+  required VoidCallback onPressed,
+  double width = 200,
+  double height = 50,
+  Color color = Colors.blueAccent,
+  TextStyle? textStyle,
+  double borderRadius = 8,
 }) {
   return SizedBox(
     width: width,
@@ -16,13 +17,14 @@ Widget customButton({
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),
       onPressed: onPressed,
       child: Text(
         title,
-        style: textStyle ??
+        style:
+            textStyle ??
             TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -32,7 +34,6 @@ Widget customButton({
     ),
   );
 }
-
 
 // customButton(
 //   title: 'Click Me',

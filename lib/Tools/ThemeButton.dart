@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'theme_notifier.dart'; // <-- import the global notifier
+import '../Config/config.dart'; // <-- import the global notifier
 
 Widget themeToggleButton() {
   return ValueListenableBuilder<ThemeMode>(
