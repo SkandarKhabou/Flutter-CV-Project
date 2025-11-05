@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mycvapp/Config/config.dart';
 import 'package:mycvapp/Tools/customContainer.dart';
 import 'package:mycvapp/Tools/customText.dart';
 
@@ -13,8 +14,8 @@ class CvSka extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: screenHeight(context),
+        width: screenWidth(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(

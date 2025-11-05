@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mycvapp/Config/config.dart';
 import 'package:mycvapp/Pages/login.page.dart';
 import 'package:mycvapp/Pages/welcome.page.dart';
 import 'package:mycvapp/Tools/FormHelper.dart';
@@ -23,8 +24,8 @@ class _InscriptionPageState extends State<InscriptionPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: screenHeight(context),
+          width: screenWidth(context),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,

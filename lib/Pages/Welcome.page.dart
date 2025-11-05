@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mycvapp/Config/config.dart';
 import 'package:mycvapp/Pages/Login.page.dart';
 import 'package:mycvapp/Tools/NormalButton.dart';
 import 'package:mycvapp/Tools/ThemeButton.dart';
@@ -16,8 +17,8 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: screenHeight(context),
+        width: screenWidth(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
