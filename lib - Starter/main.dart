@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           themeMode: currentMode, // reacts to notifier
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
-          home: WelcomePage(),
+          home: LoginPage(),
         );
       },
     );

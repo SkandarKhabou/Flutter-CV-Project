@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mycvapp/Config/config.dart';
-import 'package:mycvapp/DatabaseService/FirebaseService.dart';
 import 'package:mycvapp/Pages/Login.page.dart';
 import 'package:mycvapp/Tools/NormalButton.dart';
 import 'package:mycvapp/Tools/ThemeButton.dart';
@@ -39,13 +38,6 @@ class WelcomePage extends StatelessWidget {
             customTitle("Skandar Khabou", Color(0xFF3686FF)),
             customSubtitle("El Magnificos"),
             themeToggleButton(),
-            customButton(
-              title: "Add to Firebase",
-              onPressed: () {
-                FirebaseCustomService().addDataToFirebase();
-              },
-            ),
-            SizedBox(height: 10),
             customButton(
               title: "Logout",
               width: 200,

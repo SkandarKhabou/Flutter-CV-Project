@@ -82,7 +82,7 @@ Widget buildFormationCard(
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                child: customNormalText(year, Colors.black),
+                child: customSubtitle(year, Colors.black),
               ),
             ),
           ),

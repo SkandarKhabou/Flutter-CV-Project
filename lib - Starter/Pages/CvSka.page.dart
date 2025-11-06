@@ -3,33 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mycvapp/Config/config.dart';
-import 'package:mycvapp/DatabaseService/FirebaseService.dart';
 import 'package:mycvapp/Tools/customContainer.dart';
 import 'package:mycvapp/Tools/customText.dart';
 
-class CvSka extends StatefulWidget {
+class CvSka extends StatelessWidget {
   const CvSka({Key? key}) : super(key: key);
-
-  @override
-  State<CvSka> createState() => _CvSkaState();
-}
-
-class _CvSkaState extends State<CvSka> {
-  Map<String, dynamic>? cvDataList;
-
-  Future<void> _loadCvData() async {
-    cvDataList = await FirebaseCustomService().getAllFromDoc(
-      "users",
-      "skandarporo@gmail.com",
-    );
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCvData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,22 +40,29 @@ class _CvSkaState extends State<CvSka> {
                     borderRadius: BorderRadius.circular(20),
                     color: const Color(0xFF5bdde5),
                   ),
-                  child: customNormalText(cvDataList?["description"] ?? ''),
+                  child: customNormalText(
+                    "Étudiant en deuxième année de génie informatique, je suis passionné par l'ingénierie logicielle et la science des données. Mon engagement envers l'excellence me pousse à chercher continuellement de nouveaux défis afin de bien exploiter les compétences que j'ai acquises.",
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 20),
                   child: Row(children: [customTitle("Education")]),
                 ),
-                ...((cvDataList?['education'] ?? [])
-                    .map(
-                      (e) => buildEducationContainer(
-                        e['year'],
-                        e['place'],
-                        e['diploma'],
-                      ),
-                    )
-                    .toList()),
-
+                buildEducationContainer(
+                  "2022 - Présent",
+                  "IIT",
+                  "Genie Informatique | Sfax",
+                ),
+                buildEducationContainer(
+                  "2019 - 2022",
+                  "FSEG ",
+                  "Programme d'Informatique Appliquée à la Gestion | Sfax",
+                ),
+                buildEducationContainer(
+                  "2019",
+                  "Lycée 15 Novembre 1955",
+                  "Baccalauréat en Sciences Expérimentales  | Sfax",
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Row(children: [customTitle("Formation")]),
@@ -91,18 +76,18 @@ class _CvSkaState extends State<CvSka> {
                       padding: const EdgeInsets.only(left: 20),
                       child: Row(
                         children: <Widget>[
-                          ...((cvDataList?['formation'] ?? [])
-                              .map(
-                                (e) => buildFormationCard(
-                                  e['year'],
-                                  e['platform'],
-                                  e['title'],
-                                  Color(
-                                    int.parse(e['color']),
-                                  ), 
-                                ),
-                              )
-                              .toList()),
+                          buildFormationCard(
+                            "Udemy",
+                            "Flutter development bootcamp with Dart",
+                            "2020",
+                            const Color(0xFFFFABC8),
+                          ),
+                          buildFormationCard(
+                            "Udemy",
+                            "Formation Complète Développeur Web",
+                            "2019",
+                            const Color(0xFF7768D8),
+                          ),
                         ],
                       ),
                     ),
