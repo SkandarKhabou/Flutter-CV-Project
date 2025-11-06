@@ -97,9 +97,7 @@ class _CvSkaState extends State<CvSka> {
                                   e['year'],
                                   e['platform'],
                                   e['title'],
-                                  Color(
-                                    int.parse(e['color']),
-                                  ), 
+                                  Color(int.parse(e['color'])),
                                 ),
                               )
                               .toList()),
@@ -158,66 +156,15 @@ class _CvSkaState extends State<CvSka> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        buildSkillContainer(
-                          "assets/images/html.png",
-                          "HTML",
-                          Colors.orange.shade300,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/css.png",
-                          "CSS",
-                          Colors.blue.shade300,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/js.png",
-                          "JavaScript",
-                          Colors.yellow.shade300,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/bs.png",
-                          "BootStrap",
-                          Colors.purple.shade300,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/c.png",
-                          "C",
-                          Colors.blue.shade500,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/dart.png",
-                          "Dart",
-                          Colors.cyanAccent,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/flutter.png",
-                          "Flutter",
-                          Colors.blue.shade500,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/sql.png",
-                          "SQL",
-                          Colors.blue[200]!,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/PHP.png",
-                          "PHP",
-                          Colors.deepPurpleAccent.shade400,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/illustrator.png",
-                          "illustrator",
-                          Colors.brown[700]!,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/After.png",
-                          "After Effects",
-                          Colors.purpleAccent[200]!,
-                        ),
-                        buildSkillContainer(
-                          "assets/images/Premiere.png",
-                          "Premiere",
-                          Colors.pink[200]!,
-                        ),
+                        ...((cvDataList?['competence'] ?? [])
+                            .map(
+                              (e) => buildSkillContainer(
+                                e['image'],
+                                e['name'],
+                                Color(int.parse(e['color'])),
+                              ),
+                            )
+                            .toList()),
                       ],
                     ),
                   ),
@@ -239,30 +186,16 @@ class _CvSkaState extends State<CvSka> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        child: Column(
-                          children: <Widget>[
-                            customSubtitle("Arabe", Colors.white),
-                            customNormalText("Native", Colors.grey),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: <Widget>[
-                            customSubtitle("Francais", Colors.white),
-                            customNormalText("Conversational", Colors.grey),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: <Widget>[
-                            customSubtitle("Anglais", Colors.white),
-                            customNormalText("Conversational", Colors.grey),
-                          ],
-                        ),
-                      ),
+                      ...(cvDataList?['langue'] ?? [])
+                          .map<Widget>(
+                            (e) => Column(
+                              children: [
+                                customSubtitle(e['name'], Colors.white),
+                                customNormalText(e['level'], Colors.grey),
+                              ],
+                            ),
+                          )
+                          .toList(),
                     ],
                   ),
                 ),
@@ -280,13 +213,21 @@ class _CvSkaState extends State<CvSka> {
                   child: Column(
                     children: [
                       Row(children: [customTitle("Adresse")]),
-                      Row(children: [customSubtitle("Rte. Ain Km 1.5, Sfax")]),
+                      Row(
+                        children: [
+                          customSubtitle(cvDataList?['adresse'] ?? ''),
+                        ],
+                      ),
                       SizedBox(height: 10),
                       Row(children: [customTitle("Phone")]),
-                      Row(children: [customSubtitle("+216 93 519 878")]),
+                      Row(
+                        children: [customSubtitle(cvDataList?['phone'] ?? '')],
+                      ),
                       SizedBox(height: 10),
                       Row(children: [customTitle("Email")]),
-                      Row(children: [customSubtitle("skandarporo@gmail.com")]),
+                      Row(
+                        children: [customSubtitle(cvDataList?['email'] ?? '')],
+                      ),
                     ],
                   ),
                 ),

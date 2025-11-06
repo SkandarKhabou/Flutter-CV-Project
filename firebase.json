@@ -1,1 +1,39 @@
-{"hosting":{"public":"public","ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"**","destination":"/index.html"}]},"database":{"rules":"database.rules.json"},"flutter":{"platforms":{"android":{"default":{"projectId":"mycvapp-fbced","appId":"1:916019610293:android:976f5a0e799fd79115b4fc","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"mycvapp-fbced","configurations":{"android":"1:916019610293:android:976f5a0e799fd79115b4fc"}}}}}}
+{
+    "hosting": {
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "database": {
+        "rules": "database.rules.json"
+    },
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "mycvapp-fbced",
+                    "appId": "1:916019610293:android:976f5a0e799fd79115b4fc",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "mycvapp-fbced",
+                    "configurations": {
+                        "android": "1:916019610293:android:976f5a0e799fd79115b4fc",
+                        "web": "1:916019610293:web:96f37f14bef484c115b4fc"
+                    }
+                }
+            }
+        }
+    }
+}

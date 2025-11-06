@@ -61,9 +61,11 @@ class FirebaseCustomService {
   // var userData = await FirebaseService().getAllFromDoc('users', 'Example@gmail.com');
   // print(userData?['education']);
   // We Get only a specific doc here !
+
   Future<void> addDataToFirebase() async {
     await _db.collection('users').doc('skandarporo@gmail.com').set({
-      'description': 'This is my description',
+      'description':
+          'Diplômé en Génie Informatique, passionné par l’intelligence artificielle, le deep learning et le data mining. Rigoureux, curieux et motivé, je souhaite contribuer à des projets innovants et mettre mes compétences techniques au service d’une entreprise ambitieuse.',
       'education': [
         {
           'year': '2022 - Présent',
@@ -131,7 +133,7 @@ class FirebaseCustomService {
       ],
       'adresse': 'Rte. Ain Km 1.5, Sfax',
       'phone': '+216 93 519 878',
-      'email': 'Example@gzefzefmail.com',
+      'email': 'skandarporo@gmail.com',
     });
   }
 }
