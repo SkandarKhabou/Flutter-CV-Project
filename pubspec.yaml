@@ -47,7 +47,8 @@ dependencies:
   adaptive_theme: ^3.6.0
   flutter_i18n: ^0.36.3
   provider: ^6.1.2
-  open_file: ^3.5.4
+  universal_html: ^2.2.4
+  
 
 dev_dependencies:
   flutter_test:
