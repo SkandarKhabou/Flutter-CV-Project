@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:html' as html;
-import '../Config/config.dart';
 import '../Tools/NormalButton.dart';
 
-class DownloadPage extends StatelessWidget {
-  const DownloadPage({super.key});
+class DownloadPageWeb extends StatelessWidget {
+  const DownloadPageWeb({super.key});
 
   void _downloadApk() {
-    final apkUrl = 'assets/app-release.apk';
-    html.AnchorElement(href: apkUrl)
-      ..setAttribute('download', 'app-release.apk')
+    // ✅ Direct Google Drive download link
+    final apkUrl =
+        'https://drive.google.com/uc?export=download&id=1C6zkY7Rz-QZin0OayMTh94BumWGh8p6h';
+
+    final anchor = html.AnchorElement(href: apkUrl)
+      ..setAttribute('download', 'mycvapp.apk')
       ..click();
   }
 
@@ -31,7 +33,7 @@ class DownloadPage extends StatelessWidget {
 
           return Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 20 : 100,
+              horizontal: isMobile ? 20 : 80,
               vertical: isMobile ? 20 : 50,
             ),
             child: isMobile
