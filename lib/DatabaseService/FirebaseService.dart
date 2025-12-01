@@ -14,14 +14,6 @@ class FirebaseCustomService {
   // await FirebaseService().createData('users', 'Example@gmail.com', {'name': 'Skandar', 'city': 'Sfax'});
   //###############################################################################################
 
-  Future<void> readData(String collection, String docId) async {
-    DocumentSnapshot doc = await _db.collection(collection).doc(docId).get();
-    print(doc.data());
-  }
-
-  // await FirebaseService().readData('users', 'Example@gmail.com');
-  //###############################################################################################
-
   Future<void> updateData(
     String collection,
     String docId,
