@@ -23,17 +23,17 @@ class _InscriptionPageState extends State<InscriptionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: screenHeight(context),
-          width: screenWidth(context),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomLeft,
-              colors: [Colors.white, Color.fromARGB(255, 183, 218, 234)],
-            ),
+      body: Container(
+        height: screenHeight(context),
+        width: screenWidth(context),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomLeft,
+            colors: [Colors.white, Color.fromARGB(255, 183, 218, 234)],
           ),
+        ),
+        child: SingleChildScrollView(
           child: Stack(
             children: [
               Positioned(
@@ -157,7 +157,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop(); // close dialog
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );

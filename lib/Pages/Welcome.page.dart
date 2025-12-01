@@ -20,47 +20,50 @@ class WelcomePage extends StatelessWidget {
       body: Container(
         height: screenHeight(context),
         width: screenWidth(context),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CvSka()),
-                );
-              },
-              child: Image.asset(
-                'assets/images/pic.png',
-                height: 250,
-                width: 250,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CvSka()),
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/pic.png',
+                  height: 250,
+                  width: 250,
+                ),
               ),
-            ),
-            customTitle("Skandar Khabou", Color(0xFF3686FF)),
-            customSubtitle("El Magnificos"),
-            themeToggleButton(),
-            customButton(
-              title: "Add to Firebase",
-              onPressed: () {
-                FirebaseCustomService().addDataToFirebase();
-              },
-            ),
-            SizedBox(height: 10),
-            customButton(
-              title: "Logout",
-              width: 200,
-              height: 50,
-              color: Colors.blueAccent,
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginPage()),
-                );
-              },
-            ),
-          ],
+              customTitle("Skandar Khabou", Color(0xFF3686FF)),
+              customSubtitle("El Magnificos"),
+              themeToggleButton(),
+              customButton(
+                title: "Add to Firebase",
+                onPressed: () {
+                  FirebaseCustomService().addDataToFirebase();
+                },
+              ),
+              SizedBox(height: 10),
+              customButton(
+                title: "Logout",
+                width: 200,
+                height: 50,
+                color: Colors.blueAccent,
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginPage()),
+                  );
+                },
+              ),
+              SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
     );
