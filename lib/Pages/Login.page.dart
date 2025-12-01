@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 20),
                         // Username Field
                         customTextFormField(
-                          myLabel: "Username",
+                          myLabel: "Email",
                           controller: _emailController,
                         ),
                         SizedBox(height: 20),
@@ -140,7 +140,81 @@ class _LoginPageState extends State<LoginPage> {
                         // Forgot Password
                         TextButton(
                           onPressed: () {
-                            // Forgot password action
+                            final TextEditingController emailController =
+                                TextEditingController();
+
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Reset Password"),
+                                content: TextField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter your email",
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("Cancel"),
+                                  ),
+
+                                  TextButton(
+                                    onPressed: () async {
+                                      String email = emailController.text
+                                          .trim();
+
+                                      if (email.isEmpty) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Please enter your email",
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      try {
+                                        await FirebaseAuth.instance
+                                            .sendPasswordResetEmail(
+                                              email: email,
+                                            );
+
+                                        Navigator.pop(context);
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Password reset link sent. Check your email.",
+                                            ),
+                                          ),
+                                        );
+                                      } on FirebaseAuthException catch (e) {
+                                        String message = "Something went wrong";
+
+                                        if (e.code == 'user-not-found') {
+                                          message =
+                                              "No account found with this email";
+                                        }
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(content: Text(message)),
+                                        );
+                                      }
+                                    },
+                                    child: const Text("Send"),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           child: customNormalText("Forgot Password ?"),
                         ),
