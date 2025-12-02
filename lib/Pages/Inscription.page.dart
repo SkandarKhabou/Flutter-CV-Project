@@ -33,95 +33,100 @@ class _InscriptionPageState extends State<InscriptionPage> {
             colors: [Colors.white, Color.fromARGB(255, 183, 218, 234)],
           ),
         ),
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Positioned(
-                top: -120,
-                right: -100,
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xff7377ff),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -100,
-                right: 150,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xff66baff),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundImage: AssetImage(
-                            "assets/images/avatar.png",
-                          ),
-                          radius: 50,
-                          backgroundColor: Colors.blue,
-                        ),
-                        SizedBox(height: 20),
-                        customTextFormField(
-                          myLabel: "Full Name",
-                          controller: _fullNameController,
-                        ),
-                        SizedBox(height: 20),
-                        customTextFormField(
-                          myLabel: "Email",
-                          controller: _emailController,
-                        ),
-                        SizedBox(height: 20),
-                        customTextFormField(
-                          myLabel: "Password",
-                          controller: _passwordController,
-                          isPassword: true,
-                        ),
-                        SizedBox(height: 20),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            );
-                          },
-                          child: customNormalText(
-                            "I already have an account !",
-                            Color(0xff41a8f5),
-                          ),
-                        ),
-                        customButton(
-                          title: "Sign In",
-                          height: 45,
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              signUp();
-                            }
-                          },
-                          borderRadius: 20,
-                        ),
-                      ],
+        child: SizedBox(
+          height: screenHeight(context),
+          child: SingleChildScrollView(
+            child: Center(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -120,
+                    right: -100,
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xff7377ff),
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: -100,
+                    right: 150,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xff66baff),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/images/avatar.png",
+                              ),
+                              radius: 50,
+                              backgroundColor: Colors.blue,
+                            ),
+                            SizedBox(height: 20),
+                            customTextFormField(
+                              myLabel: "Full Name",
+                              controller: _fullNameController,
+                            ),
+                            SizedBox(height: 20),
+                            customTextFormField(
+                              myLabel: "Email",
+                              controller: _emailController,
+                            ),
+                            SizedBox(height: 20),
+                            customTextFormField(
+                              myLabel: "Password",
+                              controller: _passwordController,
+                              isPassword: true,
+                            ),
+                            SizedBox(height: 20),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                              },
+                              child: customNormalText(
+                                "I already have an account !",
+                                Color(0xff41a8f5),
+                              ),
+                            ),
+                            customButton(
+                              title: "Sign In",
+                              height: 45,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  signUp();
+                                }
+                              },
+                              borderRadius: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
