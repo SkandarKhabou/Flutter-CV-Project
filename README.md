@@ -28,5 +28,4 @@ It shows personal info, skills, education, experience, and contact details in a 
 
 Here’s a full video preview of the app in action:
 
-```html
-<video src="Screenshots/video.mp4" width="320" controls></video>
+![App demo](Screenshots/cvapp.gif)
