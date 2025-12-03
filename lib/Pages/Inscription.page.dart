@@ -33,9 +33,9 @@ class _InscriptionPageState extends State<InscriptionPage> {
             colors: [Colors.white, Color.fromARGB(255, 183, 218, 234)],
           ),
         ),
-        child: SizedBox(
-          height: screenHeight(context),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: screenHeight(context),
             child: Center(
               child: Stack(
                 children: [

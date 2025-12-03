@@ -1,16 +1,32 @@
-# mycvapp
+# 📱 CV App – Flutter
 
-A new Flutter project.
+A simple and clean **CV / Resume mobile app** built with **Flutter**.  
+It shows personal info, skills, education, experience, and contact details in a modern layout because PDFs are boring and you’re not living in 2009.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- Clean & responsive UI
+- Personal information section
+- Skills, education & experience display
+- Contact links (email / phone / socials)
+- Works on **Android & iOS**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack
+
+- Flutter
+- Dart
+- Firebase 
+- Material UI
+
+---
+
+## 📸 App Demo
+
+Here’s a full video preview of the app in action:
+
+```html
+<video src="Screenshots/video.mp4" width="320" controls></video>

@@ -22,10 +22,11 @@ class WelcomePage extends StatelessWidget {
         width: screenWidth(context),
         child: SizedBox(
           height: screenHeight(context),
-          child: SingleChildScrollView(
-            child: Center(
+          child: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {

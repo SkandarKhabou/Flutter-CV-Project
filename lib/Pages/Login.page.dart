@@ -35,208 +35,199 @@ class _LoginPageState extends State<LoginPage> {
             colors: [Colors.white, Color.fromARGB(255, 183, 218, 234)],
           ),
         ),
-        child: SizedBox(
-          height: screenHeight(context),
-          child: SingleChildScrollView(
-            child: Center(
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: -120,
-                    right: -100,
-                    child: Container(
-                      width: 300,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff7377ff),
-                      ),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: screenHeight(context),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: -120,
+                  right: -100,
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xff7377ff),
                     ),
                   ),
-                  Positioned(
-                    top: -100,
-                    right: 150,
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff66baff),
-                      ),
+                ),
+                Positioned(
+                  top: -100,
+                  right: 150,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xff66baff),
                     ),
                   ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundImage: AssetImage("assets/images/kid.png"),
+                          radius: 50,
+                          backgroundColor: Colors.blue,
+                        ),
+                        SizedBox(height: 20),
+                        // Username Field
+                        customTextFormField(
+                          myLabel: "Email",
+                          controller: _emailController,
+                        ),
+                        SizedBox(height: 20),
+                        // Password Field
+                        customTextFormField(
+                          myLabel: "Password",
+                          controller: _passwordController,
+                          isPassword: true,
+                        ),
+                        SizedBox(height: 20),
+                        // Remember Me + Signup link
+                        Row(
                           children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage: AssetImage(
-                                "assets/images/kid.png",
-                              ),
-                              radius: 50,
-                              backgroundColor: Colors.blue,
-                            ),
-                            SizedBox(height: 20),
-                            // Username Field
-                            customTextFormField(
-                              myLabel: "Email",
-                              controller: _emailController,
-                            ),
-                            SizedBox(height: 20),
-                            // Password Field
-                            customTextFormField(
-                              myLabel: "Password",
-                              controller: _passwordController,
-                              isPassword: true,
-                            ),
-                            SizedBox(height: 20),
-                            // Remember Me + Signup link
-                            Row(
-                              children: <Widget>[
-                                Checkbox(
-                                  activeColor: Color(0xff41a8f5),
-                                  value: _rememberMe,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value!;
-                                    });
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(color: Color(0xff41a8f5)),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                                customNormalText(
-                                  'Remember me',
-                                  Color(0xff41a8f5),
-                                ),
-                                Spacer(),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => InscriptionPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: customNormalText(
-                                    "Don't have an account?",
-                                    Color(0xff41a8f5),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            // Sign In Button
-                            customButton(
-                              title: "Sign In",
-                              height: 45,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  signIn();
-                                }
+                            Checkbox(
+                              activeColor: Color(0xff41a8f5),
+                              value: _rememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  _rememberMe = value!;
+                                });
                               },
-                              borderRadius: 20,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xff41a8f5)),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
-                            customSubtitle(_signinErrorMessage),
-                            SizedBox(height: 10),
-                            // Forgot Password
+                            customNormalText('Remember me', Color(0xff41a8f5)),
+                            Spacer(),
                             TextButton(
                               onPressed: () {
-                                final TextEditingController emailController =
-                                    TextEditingController();
-
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text("Reset Password"),
-                                    content: TextField(
-                                      controller: emailController,
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: const InputDecoration(
-                                        hintText: "Enter your email",
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("Cancel"),
-                                      ),
-
-                                      TextButton(
-                                        onPressed: () async {
-                                          String email = emailController.text
-                                              .trim();
-
-                                          if (email.isEmpty) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  "Please enter your email",
-                                                ),
-                                              ),
-                                            );
-                                            return;
-                                          }
-
-                                          try {
-                                            await FirebaseAuth.instance
-                                                .sendPasswordResetEmail(
-                                                  email: email,
-                                                );
-
-                                            Navigator.pop(context);
-
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  "Password reset link sent. Check your email.",
-                                                ),
-                                              ),
-                                            );
-                                          } on FirebaseAuthException catch (e) {
-                                            String message =
-                                                "Something went wrong";
-
-                                            if (e.code == 'user-not-found') {
-                                              message =
-                                                  "No account found with this email";
-                                            }
-
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(content: Text(message)),
-                                            );
-                                          }
-                                        },
-                                        child: const Text("Send"),
-                                      ),
-                                    ],
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InscriptionPage(),
                                   ),
                                 );
                               },
                               child: customNormalText(
-                                "Forgot Password ?",
-                                Colors.black,
+                                "Don't have an account?",
+                                Color(0xff41a8f5),
                               ),
                             ),
                           ],
                         ),
-                      ),
+                        SizedBox(height: 10),
+                        // Sign In Button
+                        customButton(
+                          title: "Sign In",
+                          height: 45,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              signIn();
+                            }
+                          },
+                          borderRadius: 20,
+                        ),
+                        customSubtitle(_signinErrorMessage),
+                        SizedBox(height: 10),
+                        // Forgot Password
+                        TextButton(
+                          onPressed: () {
+                            final TextEditingController emailController =
+                                TextEditingController();
+
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Reset Password"),
+                                content: TextField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter your email",
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("Cancel"),
+                                  ),
+
+                                  TextButton(
+                                    onPressed: () async {
+                                      String email = emailController.text
+                                          .trim();
+
+                                      if (email.isEmpty) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Please enter your email",
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      try {
+                                        await FirebaseAuth.instance
+                                            .sendPasswordResetEmail(
+                                              email: email,
+                                            );
+
+                                        Navigator.pop(context);
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Password reset link sent. Check your email.",
+                                            ),
+                                          ),
+                                        );
+                                      } on FirebaseAuthException catch (e) {
+                                        String message = "Something went wrong";
+
+                                        if (e.code == 'user-not-found') {
+                                          message =
+                                              "No account found with this email";
+                                        }
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(content: Text(message)),
+                                        );
+                                      }
+                                    },
+                                    child: const Text("Send"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: customNormalText(
+                            "Forgot Password ?",
+                            Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
